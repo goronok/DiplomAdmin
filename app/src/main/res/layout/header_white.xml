@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginBottom="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="40dp">
+
+    <ImageView
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/bikewh"
+        android:layout_width="32dp"
+        android:layout_height="32dp" />
+
+    <ImageView
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/airplanewh"
+        android:layout_width="32dp"
+        android:layout_height="32dp" />
+
+    <ImageView
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/theatrewh"
+        android:layout_width="32dp"
+        android:layout_height="32dp" />
+
+    <ImageView
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/doctorwh"
+        android:layout_width="32dp"
+        android:layout_height="32dp" />
+
+    <ImageView
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/signwh"
+        android:layout_width="32dp"
+        android:layout_height="32dp" />
+
+    <ImageView
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/rocketwh"
+        android:layout_width="32dp"
+        android:layout_height="32dp" />
+
+    <ImageView
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/baseballwh"
+        android:layout_width="32dp"
+        android:layout_height="32dp" />
+
+    <ImageView
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/carouselwh"
+        android:layout_width="32dp"
+        android:layout_height="32dp" />
+
+    <ImageView
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/glidingwh"
+        android:layout_width="32dp"
+        android:layout_height="32dp" />
+</LinearLayout>
