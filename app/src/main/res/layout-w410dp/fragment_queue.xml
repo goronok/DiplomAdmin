@@ -19,7 +19,7 @@
                 android:id="@+id/relativeTop"
                 android:background="@color/mainGreen"
                 android:layout_width="match_parent"
-                android:layout_height="100dp">
+                android:layout_height="50dp">
 
                 <TextView
                     android:id="@+id/textQueue"
@@ -32,12 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp" />
 
-                <ViewStub
-                    android:id="@+id/layout_stub"
-                    android:layout_below="@+id/textQueue"
-                    android:inflatedId="@+id/message_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+
 
             </RelativeLayout>
 
@@ -96,7 +91,7 @@
                     android:layout_marginLeft="10dp"
                     android:text="Имя"
                     android:id="@+id/textNameSchedule"
-                    android:textSize="16dp"
+                    android:textSize="22sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -107,10 +102,10 @@
                     android:drawableLeft="@drawable/ic_action_queue_black"
                     android:textColor="@android:color/white"
                     android:id="@+id/textAmountQueue"
-                    android:text="Количество"
+                    android:text="0"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
-                    android:textSize="16dp"
+                    android:textSize="22sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

@@ -59,7 +59,6 @@ public class ActivityFragment extends Fragment {
     // Элементы интерфейса
     RecyclerView recyclerView;
     Spinner spinner;
-    ViewStub layout_stub;
     LinearLayout linearLayoutTop;
     RelativeLayout relativeBottom;
     FloatingActionButton addFlBut;
@@ -69,7 +68,7 @@ public class ActivityFragment extends Fragment {
 
 
     private Call<List<Activities>> callActivities;
-    public Call<DatesFestival> callDate;
+    public  Call<DatesFestival> callDate;
 
     private ShimmerFrameLayout mShimmerViewContainer;
 
@@ -119,7 +118,7 @@ public class ActivityFragment extends Fragment {
         relativeBottom = view.findViewById(R.id.relativeBottom);
         recyclerView = view.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        layout_stub = view.findViewById(R.id.layout_stub);
+        //layout_stub = view.findViewById(R.id.layout_stub);
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
         spinner = view.findViewById(R.id.spinner);
         addFlBut = view.findViewById(R.id.addFlBut);
@@ -182,13 +181,7 @@ public class ActivityFragment extends Fragment {
 
             getActivity().findViewById(R.id.toolBar).setBackgroundResource(setting.getColorId());
 
-            if(setting.blackWhite()){
-                layout_stub.setLayoutResource(R.layout.header_black);
-            }else{
-                layout_stub.setLayoutResource(R.layout.header_white);
-            }
 
-            layout_stub.inflate();
 
 
 
@@ -267,8 +260,8 @@ public class ActivityFragment extends Fragment {
                         datesFestival = response.body();
 
                         // адаптер для спинера
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, datesFestival.getStringDate());
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, datesFestival.getStringDate());
+                        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                         spinner.setAdapter(adapter);
 
                     } else {
@@ -284,8 +277,10 @@ public class ActivityFragment extends Fragment {
             });
         }else{
             // адаптер для спинера
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, datesFestival.getStringDate());
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, datesFestival.getStringDate());
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
             spinner.setAdapter(adapter);
         }
 
@@ -300,6 +295,8 @@ public class ActivityFragment extends Fragment {
         View promptsView = li.inflate(R.layout.dialog_registration_user, null);
         //Создаем AlertDialog
         AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext());
+
+
 
         //Настраиваем prompt.xml для нашего AlertDialog:
         mDialogBuilder.setView(promptsView);
