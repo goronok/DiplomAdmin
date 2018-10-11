@@ -1,14 +1,16 @@
 package com.example.goron.diplomadmin.Model;
 
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
 // Класс расписание для фестиваля, c подробной информацией о активности (Поля: ид, дата, время начала, время окончания, имя, описание, главное фото, коллекция фото)
 
-public class Schedule {
+public class Schedule implements Serializable {
 
     private int id;
+    private int activity_id;
     private Date date;
     private String start_time;
     private String end_time;
@@ -20,8 +22,9 @@ public class Schedule {
 
 
     // Конструктор с параметрами
-    public Schedule(int id, Date date, String start_time, String end_time, String name, String description, String main_photo, List<String> photos) {
+    public Schedule(int id, int activity_id, Date date, String start_time, String end_time, String name, String description, String main_photo, List<String> photos) {
         this.id = id;
+        this.activity_id = activity_id;
         this.date = date;
         this.start_time = start_time;
         this.end_time = end_time;
@@ -94,5 +97,13 @@ public class Schedule {
 
     public void setPhotos(List<String> photos) {
         this.photos = photos;
+    }
+
+    public int getActivity_id() {
+        return activity_id;
+    }
+
+    public void setActivity_id(int activity_id) {
+        this.activity_id = activity_id;
     }
 }

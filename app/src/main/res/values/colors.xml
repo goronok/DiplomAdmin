@@ -9,4 +9,8 @@
     <color name="background">#dddddd</color>
     <color name="mainBlue">#36648b</color>
     <color name="mainBlack">#080808</color>
+    <color name="white">#ffffff</color>
+
+    <color name="blackLogin">#333333</color>
+    <color name="blackLogin2">#5b5b5b</color>
 </resources>

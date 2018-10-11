@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
@@ -11,14 +13,17 @@ import android.support.v4.app.Fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -70,7 +75,7 @@ public class ActivityFragment extends Fragment {
     private Call<List<Activities>> callActivities;
     public  Call<DatesFestival> callDate;
 
-    private ShimmerFrameLayout mShimmerViewContainer;
+    //public static ShimmerFrameLayout mShimmerViewContainer;
 
 
     private String name, password;
@@ -116,10 +121,9 @@ public class ActivityFragment extends Fragment {
         //Инициализируем элементы:
         linearLayoutTop = view.findViewById(R.id.linearLayoutTop);
         relativeBottom = view.findViewById(R.id.relativeBottom);
-        recyclerView = view.findViewById(R.id.recycler);
+        recyclerView = view.findViewById(R.id.recyclerActivity);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //layout_stub = view.findViewById(R.id.layout_stub);
-        mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
+        //mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
         spinner = view.findViewById(R.id.spinner);
         addFlBut = view.findViewById(R.id.addFlBut);
 
@@ -132,7 +136,7 @@ public class ActivityFragment extends Fragment {
         // Добавляем слушателя при выборе в спинере даты
         spinnerSetListener();
 
-
+        //mShimmerViewContainer.setVisibility(View.GONE);
         //
         addFlBut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,13 +182,7 @@ public class ActivityFragment extends Fragment {
             linearLayoutTop.setBackgroundResource(setting.getColorId());
             relativeBottom.setBackgroundResource(setting.getColorId());
 
-
             getActivity().findViewById(R.id.toolBar).setBackgroundResource(setting.getColorId());
-
-
-
-
-
     }
 
 
@@ -206,8 +204,8 @@ public class ActivityFragment extends Fragment {
                         }
 
                         // Stopping Shimmer Effect's animation after data is loaded to ListView
-                        mShimmerViewContainer.stopShimmerAnimation();
-                        mShimmerViewContainer.setVisibility(View.GONE);
+                        //mShimmerViewContainer.stopShimmerAnimation();
+                        //mShimmerViewContainer.setVisibility(View.GONE);
 
                     } else {
                         Toast.makeText(getActivity(), "error response, no access to resource?", Toast.LENGTH_LONG).show();
@@ -286,7 +284,11 @@ public class ActivityFragment extends Fragment {
 
     }
 
-
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        //mShimmerViewContainer.setVisibility(View.GONE);
+    }
 
     private void showRegistrationDialog(){
 
@@ -295,6 +297,7 @@ public class ActivityFragment extends Fragment {
         View promptsView = li.inflate(R.layout.dialog_registration_user, null);
         //Создаем AlertDialog
         AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext());
+
 
 
 
@@ -307,15 +310,21 @@ public class ActivityFragment extends Fragment {
         final TextInputEditText textInputNumber = promptsView.findViewById(R.id.textInputNumber);
         final TextInputEditText textInputPassport = promptsView.findViewById(R.id.textInputPassport);
 
-
             //Настраиваем сообщение в диалоговом окне:
             mDialogBuilder
                     .setCancelable(false)
                     .setPositiveButton("OK",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,int id) {
-                                    Users users = new Users(textInputName.getText().toString(),textInputSurName.getText().toString(), textInputNumber.getText().toString(), textInputPassport.getText().toString() );
-                                    registration(users);
+
+                                    if(TextUtils.isEmpty(textInputName.getText().toString() )|| TextUtils.isEmpty(textInputSurName.getText().toString()) ||
+                                       TextUtils.isEmpty(textInputNumber.getText().toString()) || TextUtils.isEmpty(textInputPassport.getText().toString()) ){
+                                       Toast.makeText(getContext(), "Не все поля заполнены", Toast.LENGTH_LONG).show();
+                                       showRegistrationDialog();
+                                    }else {
+                                        Users users = new Users(textInputName.getText().toString(), textInputSurName.getText().toString(), textInputNumber.getText().toString(), textInputPassport.getText().toString());
+                                        registration(users);
+                                    }
                                 }
                             })
                     .setNegativeButton("Отмена",
@@ -328,9 +337,22 @@ public class ActivityFragment extends Fragment {
             //Создаем AlertDialog:
             AlertDialog alertDialog = mDialogBuilder.create();
 
+
+            alertDialog.getWindow().setBackgroundDrawableResource(R.color.mainGreen);
+
+
              alertDialog.getWindow().setGravity(Gravity.TOP);
             //и отображаем его:
             alertDialog.show();
+
+
+        Button buttonNegative = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        buttonNegative.setText("Отмена");
+        buttonNegative.setTextColor(Color.WHITE);
+
+        Button buttonPositive = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonPositive.setText("Регистрировать");
+        buttonPositive.setTextColor(Color.WHITE);
 
     }//showRegistrationDialog
 

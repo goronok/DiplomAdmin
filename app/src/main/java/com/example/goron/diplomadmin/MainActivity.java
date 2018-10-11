@@ -147,56 +147,48 @@ public class MainActivity extends AppCompatActivity {
 
 
                 Call<AccountInformation> call = getService(name,password).getEmployeePermission();
-
-
-
-
                 call.enqueue(new Callback<AccountInformation>() {
+                        @Override
+                        public void onResponse(Call<AccountInformation> call, retrofit2.Response<AccountInformation> response) {
+
+                            if (response.isSuccessful()) {
+
+                                // Повысить шкалу анимации до 80
+                                binding.waveLoadingView.setProgressValue(80);
+                                // Получить информацию из запроса права пользователя
+                                AccountInformation accountInformation = response.body();
 
 
-                    @Override
-                    public void onResponse(Call<AccountInformation> call, retrofit2.Response<AccountInformation> response) {
+                                // Сохранить полученные права пользователя в файл для дальнейшего использования
+                                SerializableManager.saveSerializableObject(getApplication(), accountInformation, FileNameAccountInformation);
 
-                        if (response.isSuccessful()) {
+                                binding.waveLoadingView.setProgressValue(100);
 
-                            // Повысить шкалу анимации до 80
-                            binding.waveLoadingView.setProgressValue(80);
-                            // Получить информацию из запроса права пользователя
-                            AccountInformation accountInformation = response.body();
+                                // Открыть стартовую активность
+                                Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                                intent.putExtra("name", name);
+                                intent.putExtra("password", password);
+                                startActivity(intent);
 
+                                // Если ошибка 401 это ошибка авторизации
+                            }else if(response.code() == UNAUTHORIZED) {
+                                binding.waveLoadingView.setVisibility(View.GONE);
+                                binding.mainRelation.setVisibility(View.VISIBLE);
+                                Toast.makeText(getApplicationContext(), "Не верное имя или пароль", Toast.LENGTH_LONG).show();
 
-                            // Сохранить полученные права пользователя в файл для дальнейшего использования
-                            SerializableManager.saveSerializableObject(getApplication(), accountInformation, FileNameAccountInformation);
+                                // Любая другая ошибка
+                            }else{
+                                Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_LONG).show();
+                            }
 
-                            binding.waveLoadingView.setProgressValue(100);
-
-                            // Открыть стартовую активность
-                            Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-                            intent.putExtra("name", name);
-                            intent.putExtra("password", password);
-                            startActivity(intent);
-
-                            // Если ошибка 401 это ошибка авторизации
-                        }else if(response.code() == UNAUTHORIZED) {
-                            binding.waveLoadingView.setVisibility(View.GONE);
-                            binding.mainRelation.setVisibility(View.VISIBLE);
-                            Toast.makeText(getApplicationContext(), "Не верное имя или пароль", Toast.LENGTH_LONG).show();
-
-                            // Любая другая ошибка
-                        }else{
-                            Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_LONG).show();
                         }
 
-                    }
-
-                    // Вызывается, когда произошло сетевое исключение, разговаривающее с сервером или когда возникло непредвиденное исключение, создающее запрос или обработку ответа.
-                    @Override
-                    public void onFailure(Call<AccountInformation> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
-                    }
-                });
-
-
+                        // Вызывается, когда произошло сетевое исключение, разговаривающее с сервером или когда возникло непредвиденное исключение, создающее запрос или обработку ответа.
+                        @Override
+                        public void onFailure(Call<AccountInformation> call, Throwable t) {
+                            Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    });
         }//if
 
 

@@ -15,13 +15,17 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.goron.diplomadmin.Fragments.AboutActivitiesFragment;
+import com.example.goron.diplomadmin.Fragments.ActivitiesFragment;
 import com.example.goron.diplomadmin.Fragments.ActivityFragment;
 import com.example.goron.diplomadmin.Fragments.ScheduleFragment;
 import com.example.goron.diplomadmin.Fragments.SettingFragment;
 import com.example.goron.diplomadmin.Manager.SerializableManager;
+import com.example.goron.diplomadmin.Model.Activities;
 import com.example.goron.diplomadmin.Model.Setting;
 
 public class StartActivity extends AppCompatActivity {
@@ -57,8 +61,12 @@ public class StartActivity extends AppCompatActivity {
 
 
         Bundle arguments = getIntent().getExtras();
-        name = arguments.get("name").toString();
-        password = arguments.get("password").toString();
+
+
+        if(arguments != null) {
+            name = arguments.get("name").toString();
+            password = arguments.get("password").toString();
+        }
 
         Toast.makeText(getApplicationContext(), "Добро пожаловать", Toast.LENGTH_LONG).show();
 
@@ -105,7 +113,6 @@ public class StartActivity extends AppCompatActivity {
     private void showFragment(Fragment fragment){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
-
     }//showFragment
 
 
@@ -145,9 +152,11 @@ public class StartActivity extends AppCompatActivity {
                 Intent intent;
                 switch (id) {
 
-                    case R.id.settings:
-                        settingFragment = new SettingFragment();
-                        showFragment(settingFragment);
+                    case R.id.activities:
+                        ActivitiesFragment activitiesFragment = ActivitiesFragment.newInstance(name,password);
+
+                        showFragment(activitiesFragment);
+
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
 

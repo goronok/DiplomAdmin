@@ -52,16 +52,9 @@ public class QueueFragment extends Fragment {
     private String userName, nameSchedule, name, password;
 
     TextView empty;
-
     InfoQueue infoQueue;
-
     Setting setting;
-
     RelativeLayout relativeTop, relativeBottom;
-
-
-
-
     FloatingActionButton showQueue;
 
 
