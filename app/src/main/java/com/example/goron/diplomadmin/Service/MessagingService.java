@@ -108,7 +108,7 @@ public class MessagingService extends FirebaseMessagingService {
     // !!! если нет notifyPendingIntent, может перейти на главную активность TODO: проверить (нет)!!!
     private NotificationCompat.Builder createNotification(String title, String body, PendingIntent notifyPendingIntent){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setSmallIcon(R.drawable.logodnvermin)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)
