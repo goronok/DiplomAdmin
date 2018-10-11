@@ -39,7 +39,7 @@ public class AllQueueFragment extends Fragment {
 
     RelativeLayout relativeTop, relativeBottom;
 
-    ViewStub layout_stub;
+
 
     TextView textNameSchedule, textAmountQueue;
 
@@ -89,7 +89,6 @@ public class AllQueueFragment extends Fragment {
         textAmountQueue = view.findViewById(R.id.textAmountQueue);
         relativeBottom = view.findViewById(R.id.relativeBottom);
         relativeTop = view.findViewById(R.id.relativeTop);
-        layout_stub = view.findViewById(R.id.layout_stub);
 
 
 
@@ -199,13 +198,6 @@ public class AllQueueFragment extends Fragment {
 
         getActivity().findViewById(R.id.toolBar).setBackgroundResource(setting.getColorId());
 
-        if(setting.blackWhite()){
-            layout_stub.setLayoutResource(R.layout.header_black);
-        }else{
-            layout_stub.setLayoutResource(R.layout.header_white);
-        }
-
-        layout_stub.inflate();
 
     }//setSetting
 

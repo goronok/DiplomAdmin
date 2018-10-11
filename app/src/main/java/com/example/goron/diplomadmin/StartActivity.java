@@ -123,22 +123,18 @@ public class StartActivity extends AppCompatActivity {
     public void onBackPressed() {
         int count = getSupportFragmentManager().getBackStackEntryCount();
 
-
         // Если открыто боковое меню - закрываем его, Если в стеке последний фрагмент закрываем активность иначе возвращаемся к предыдущему фрагменту
         if (drawerLayout.isDrawerOpen(GravityCompat.START))  drawerLayout.closeDrawer(GravityCompat.START);
         else if (count == 1) {
-          super.onBackPressed();
           if(activityfragment.callDate != null){
               activityfragment.callDate.cancel();
           }
-
             moveTaskToBack(true);
-            finish();
         }else {
             getSupportFragmentManager().popBackStack();
         }
 
-    }
+    }//onBackPressed
 
 
     // Переход по NavigationView

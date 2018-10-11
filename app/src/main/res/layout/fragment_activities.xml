@@ -9,7 +9,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerActivities"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:background="@color/blackLogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
