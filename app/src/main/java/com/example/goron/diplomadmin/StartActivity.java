@@ -13,12 +13,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.goron.diplomadmin.Fragments.ActivityFragment;
+import com.example.goron.diplomadmin.Fragments.QueueFragment;
 import com.example.goron.diplomadmin.Fragments.ScheduleFragment;
 import com.example.goron.diplomadmin.Fragments.SettingFragment;
 import com.example.goron.diplomadmin.Manager.SerializableManager;
@@ -57,6 +59,8 @@ public class StartActivity extends AppCompatActivity {
 
 
         Bundle arguments = getIntent().getExtras();
+//        Log.d("notificationsDebug", "destination - " + arguments);
+        // может падать тут
         name = arguments.get("name").toString();
         password = arguments.get("password").toString();
 
@@ -83,8 +87,30 @@ public class StartActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        activityfragment= ActivityFragment.newInstance(name, password);
-        showFragment(activityfragment);
+
+        // определяем, было ли нажатие на уведомление или был обычный вход
+        if (arguments.get("destination") == null){
+            activityfragment= ActivityFragment.newInstance(name, password);
+            showFragment(activityfragment);
+        } else {
+            String destination = arguments.get("destination").toString();
+            Log.d("notificationsDebug", "destination - " + destination);
+            switch (destination){
+                case "schedule":
+                    scheduleFragment = ScheduleFragment.newInstance("admin","admin");
+                    showFragment(scheduleFragment);
+                    break;
+                case "queue":
+                    QueueFragment queueFragment = QueueFragment.newInstance(
+                            Integer.parseInt(arguments.get("activityId").toString()),
+                            arguments.get("activityName").toString(),
+                            "admin","admin"
+                    );
+                    showFragment(queueFragment);
+                    break;
+            }
+        }
+
 
 
         // Заполняем объект с настройками из файла
