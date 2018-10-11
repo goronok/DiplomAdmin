@@ -16,6 +16,7 @@ public class ServiceGenerator {
 
     public static final String API_BASE_URL = "http://bdc16540.ngrok.io/api/v1/";
 
+
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     private static SqlDateTypeAdapter sqlAdapter = new SqlDateTypeAdapter();

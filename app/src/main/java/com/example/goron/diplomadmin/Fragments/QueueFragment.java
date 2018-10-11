@@ -59,7 +59,8 @@ public class QueueFragment extends Fragment {
 
     RelativeLayout relativeTop, relativeBottom;
 
-    ViewStub layout_stub;
+
+
 
     FloatingActionButton showQueue;
 
@@ -109,16 +110,12 @@ public class QueueFragment extends Fragment {
 
         relativeBottom = view.findViewById(R.id.relativeBottom);
         relativeTop = view.findViewById(R.id.relativeTop);
-        layout_stub = view.findViewById(R.id.layout_stub);
         showQueue = view.findViewById(R.id.showQueue);
 
         empty.setVisibility(View.GONE);
 
         // Установить название активности
         textNameSchedule.setText(nameSchedule);
-
-
-
 
         //Установить настройки
         setSetting();
@@ -398,13 +395,8 @@ public class QueueFragment extends Fragment {
 
         getActivity().findViewById(R.id.toolBar).setBackgroundResource(setting.getColorId());
 
-        if(setting.blackWhite()){
-            layout_stub.setLayoutResource(R.layout.header_black);
-        }else{
-            layout_stub.setLayoutResource(R.layout.header_white);
-        }
 
-        layout_stub.inflate();
+
 
     }//setSetting
 
