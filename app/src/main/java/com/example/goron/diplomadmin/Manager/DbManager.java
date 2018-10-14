@@ -1,5 +1,6 @@
 package com.example.goron.diplomadmin.Manager;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
@@ -14,8 +15,8 @@ import java.util.List;
 public class DbManager {
     private DatabaseHelper helper;
 
-    public DbManager(DatabaseHelper helper) {
-        this.helper = helper;
+    public DbManager(Context context) {
+        this.helper = new DatabaseHelper(context);
     }// ctor
 
     // выполнить запрос для получения данных

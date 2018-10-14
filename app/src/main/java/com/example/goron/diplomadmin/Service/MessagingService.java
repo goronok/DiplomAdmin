@@ -155,7 +155,7 @@ public class MessagingService extends FirebaseMessagingService {
 
     @Override
     public void onNewToken(String s) {
-        DbManager manager = new DbManager(new DatabaseHelper(getApplicationContext()));
+        DbManager manager = new DbManager(getApplicationContext());
         manager.addFirebaseToken(s);
         Log.d("CurrentToken", "new token: " + s);
     }
