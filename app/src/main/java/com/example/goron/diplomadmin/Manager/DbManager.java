@@ -8,6 +8,7 @@ import com.example.goron.diplomadmin.Database.DatabaseHelper;
 import com.example.goron.diplomadmin.Model.Schedule;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -109,22 +110,24 @@ public class DbManager {
     }// editDataChanged
 
     // получить расписание из БД
-    public List<HashMap<String,String>> getSchedule(){
+    public List<Schedule> getSchedule(){
         String query = "select * from "
                 + DatabaseHelper.TABLE_SCHEDULE
                 + ";";
 
         Cursor raw = getData(query);
-        List<HashMap<String,String>> result = new ArrayList<>();
-        HashMap<String,String> item;
+        List<Schedule> result = new ArrayList<>();
+        Schedule item;
 
         for (raw.moveToFirst(); !raw.isAfterLast(); raw.moveToNext()) {
-            item = new HashMap<>();
-            item.put("activityName", raw.getString(raw.getColumnIndex("activityName")));
-            item.put("activityId", raw.getString(raw.getColumnIndex("activityId")));
-            item.put("startsAt", raw.getString(raw.getColumnIndex("startsAt")));
-            item.put("endsAt", raw.getString(raw.getColumnIndex("endsAt")));
-            item.put("date", raw.getString(raw.getColumnIndex("date")));
+            item = new Schedule(
+                    raw.getInt(raw.getColumnIndex("activityId")),
+                    Date.valueOf(raw.getString(raw.getColumnIndex("date"))),
+                    raw.getString(raw.getColumnIndex("startsAt")),
+                    raw.getString(raw.getColumnIndex("endsAt")),
+                    raw.getString(raw.getColumnIndex("activityName")),
+                    null,null,null
+            );
 
             result.add(item);
         }// for
