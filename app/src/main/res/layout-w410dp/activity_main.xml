@@ -12,20 +12,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <RelativeLayout
             android:id="@+id/mainRelation"
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#333333"
+            android:background="@drawable/main5"
             tools:context=".MainActivity">
 
 
             <TextView
                 android:textColor="@android:color/white"
-                android:text="Авторизоваться"
+                android:fontFamily="@font/sandman"
+                android:text="@string/Login"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="30dp"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
@@ -33,7 +34,7 @@
 
 
             <android.support.design.widget.TextInputLayout
-                android:layout_marginTop="200dp"
+                android:layout_marginTop="80dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_centerHorizontal="true"
@@ -48,14 +49,13 @@
                     android:id="@+id/textInputName"
                     android:drawableLeft="@drawable/ic_action_name_white"
                     android:gravity="center"
-                    android:background="#11ffffff"
+                    android:background="#16ffffff"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:hint="Имя"
                     android:text="admin"
                     android:textColorHint="@android:color/white"
-                    android:textColor="@android:color/white"
-                    />
+                    android:textColor="@android:color/white"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -111,20 +111,10 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:layout_below="@+id/checkBoxRememberMe"
-                android:text="Вход"
+                android:text="@string/entrance"
                 android:textColor="@android:color/white"
                 android:layout_width="100dp"
                 android:layout_height="50dp" />
-
-
-
-            <ImageView
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp"
-                android:layout_below="@+id/goToStartActivity"
-                android:src="@drawable/logodnsr"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
 
         </RelativeLayout>
 
@@ -147,7 +137,7 @@
             app:wlv_triangle_direction="north"
             app:wlv_titleCenterStrokeColor="@android:color/holo_blue_dark"
             app:wlv_titleCenterStrokeWidth="3dp"
-            app:wlv_titleCenter="Выполняется вход"
+            app:wlv_titleCenter="@string/Signing_in"
             app:wlv_titleCenterColor="@android:color/white"
             app:wlv_titleCenterSize="24sp"
             app:wlv_waveAmplitude="70"

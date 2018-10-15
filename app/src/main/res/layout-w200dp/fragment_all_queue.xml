@@ -16,10 +16,11 @@
             android:layout_height="match_parent">
 
             <RelativeLayout
+                android:layout_marginTop="30dp"
                 android:id="@+id/relativeTop"
                 android:background="@color/mainGreen"
                 android:layout_width="match_parent"
-                android:layout_height="100dp">
+                android:layout_height="50dp">
 
                 <TextView
                     android:id="@+id/textQueue"
@@ -32,12 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp" />
 
-                <ViewStub
-                    android:id="@+id/layout_stub"
-                    android:layout_below="@+id/textQueue"
-                    android:inflatedId="@+id/message_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+
 
             </RelativeLayout>
 
@@ -96,27 +92,6 @@
 
 
         </RelativeLayout>
-
-
-
-
-
-
-        <android.support.design.widget.FloatingActionButton
-            app:borderWidth="0dp"
-            android:id="@+id/addqueu"
-            android:layout_marginRight="50dp"
-            app:layout_anchor="@id/relativeBottom"
-            app:layout_anchorGravity="top|right"
-            android:backgroundTint="#8b6914"
-            android:layout_width="wrap_content"
-            android:src="@drawable/ic_action_addqueue_white"
-            android:layout_height="wrap_content" />
-
-
-
-
-
 
     </android.support.design.widget.CoordinatorLayout>
 

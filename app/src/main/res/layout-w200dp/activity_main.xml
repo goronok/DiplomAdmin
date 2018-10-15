@@ -12,6 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/logo"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:layout_below="@+id/goToStartActivity"
+            android:src="@drawable/logodnsr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <RelativeLayout
             android:id="@+id/mainRelation"
             android:layout_width="match_parent"

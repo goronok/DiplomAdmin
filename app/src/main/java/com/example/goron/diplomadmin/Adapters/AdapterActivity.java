@@ -31,16 +31,13 @@ public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.Adapte
     AccountInformation accountInformation;
     Context context;
     Setting setting;
-    String name, password;
 
 
-    public AdapterActivity(List<Activities> activitiesList, Context context, AccountInformation accountInformation, Setting setting, String name, String password) {
+    public AdapterActivity(List<Activities> activitiesList, Context context, AccountInformation accountInformation, Setting setting) {
         this.activitiesList = activitiesList;
         this.accountInformation = accountInformation;
         this.context = context;
         this.setting = setting;
-        this.name = name;
-        this.password = password;
     }
 
     @NonNull
@@ -76,7 +73,7 @@ public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.Adapte
 
 
                     ((FragmentActivity)context).getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.content_frame, QueueFragment.newInstance(activities.getId(), activities.getName(), name,password)).addToBackStack(null).commit();
+                            .replace(R.id.content_frame, QueueFragment.newInstance(activities.getId(), activities.getName())).addToBackStack(null).commit();
 
 
                 }else{

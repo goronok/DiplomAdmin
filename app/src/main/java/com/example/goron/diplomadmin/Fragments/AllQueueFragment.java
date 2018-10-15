@@ -39,7 +39,7 @@ public class AllQueueFragment extends Fragment {
 
     RelativeLayout relativeTop, relativeBottom;
 
-    ViewStub layout_stub;
+
 
     TextView textNameSchedule, textAmountQueue;
 
@@ -48,20 +48,18 @@ public class AllQueueFragment extends Fragment {
     private RecyclerView recycler;
 
     private int idShedule, idUser;
-    private String userName, nameSchedule, name, password;
+    private String userName, nameSchedule;
 
     public AllQueueFragment() {
         // Required empty public constructor
     }
 
 
-    public static AllQueueFragment newInstance(int idShedule, String nameSchedule, String name, String password) {
+    public static AllQueueFragment newInstance(int idShedule, String nameSchedule) {
         AllQueueFragment fragment = new AllQueueFragment();
         Bundle args = new Bundle();
         args.putInt("idShedule", idShedule);
         args.putString("nameSchedule", nameSchedule);
-        args.putString("name", name);
-        args.putString("password", password);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,8 +70,6 @@ public class AllQueueFragment extends Fragment {
         if (getArguments() != null) {
             idShedule = getArguments().getInt("idShedule");
             nameSchedule = getArguments().getString("nameSchedule");
-            name = getArguments().getString("name");
-            password = getArguments().getString("password");
         }
     }
 
@@ -84,12 +80,12 @@ public class AllQueueFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_all_queue, container, false);
 
+        // Инициализируем элементы:
         recycler = view.findViewById(R.id.recycler);
         textNameSchedule = view.findViewById(R.id.textNameSchedule);
         textAmountQueue = view.findViewById(R.id.textAmountQueue);
         relativeBottom = view.findViewById(R.id.relativeBottom);
         relativeTop = view.findViewById(R.id.relativeTop);
-        layout_stub = view.findViewById(R.id.layout_stub);
 
 
 
@@ -151,7 +147,7 @@ public class AllQueueFragment extends Fragment {
 
 
     private Service getLoginService(){
-        return  ServiceGenerator.createService(Service.class, name, password);
+        return  ServiceGenerator.createService(Service.class);
     }
 
 
@@ -199,13 +195,6 @@ public class AllQueueFragment extends Fragment {
 
         getActivity().findViewById(R.id.toolBar).setBackgroundResource(setting.getColorId());
 
-        if(setting.blackWhite()){
-            layout_stub.setLayoutResource(R.layout.header_black);
-        }else{
-            layout_stub.setLayoutResource(R.layout.header_white);
-        }
-
-        layout_stub.inflate();
 
     }//setSetting
 

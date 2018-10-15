@@ -1,6 +1,9 @@
 package com.example.goron.diplomadmin;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +12,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import com.example.goron.diplomadmin.Interface.Service;
@@ -18,12 +22,15 @@ import com.example.goron.diplomadmin.Model.Login;
 import com.example.goron.diplomadmin.Service.ServiceGenerator;
 import com.example.goron.diplomadmin.databinding.ActivityMainBinding;
 
+import java.io.IOException;
+import java.nio.channels.NoConnectionPendingException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import me.itangqi.waveloadingview.WaveLoadingView;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Converter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,19 +44,21 @@ public class MainActivity extends AppCompatActivity {
     private final int UNAUTHORIZED = 401;
 
 
+
+
     // Имя файла для сохранения информации об акаунте
     private final  String FileNameAccountInformation = "AccountInformation.ser";
-
     private final  String FileNameLogin = "Login.ser";
 
     private Login login;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(LAYOUT);
+
+
+
 
         // Метод DataBindingUtil.setContentView внутри себя сделает привычный нам setContentView для Activity, а также настроит и вернет объект биндинга MainActivityBinding.
         binding = DataBindingUtil.setContentView(this, LAYOUT);
@@ -73,23 +82,8 @@ public class MainActivity extends AppCompatActivity {
             binding.checkBoxRememberMe.setChecked(login.isCheck());
         }//if
 
-
         // При нажатии на кнопку login переходим на активити StartActivity
-        binding.goToStartActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                // Запустить анимацию
-                binding.waveLoadingView.startAnimation();
-                // Спрятать главный relation
-                binding.mainRelation.setVisibility(View.GONE);
-                // Показать анимацию
-                binding.waveLoadingView.setVisibility(View.VISIBLE);
-
-                // Получить информацию об акаунте
-                getAccountInformation();
-            }
-        });
+        clickButtonGoToStartActivity();
 
 
         // При выборе checkBoxRememberMe
@@ -121,9 +115,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    // При нажатии на кнопку login переходим на активити StartActivity
+    private void clickButtonGoToStartActivity(){
+        binding.goToStartActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // Запустить анимацию
+                binding.waveLoadingView.startAnimation();
+                // Спрятать главный relation
+                binding.mainRelation.setVisibility(View.GONE);
+
+                // Показать анимацию
+                binding.waveLoadingView.setVisibility(View.VISIBLE);
+
+                // Получить информацию об акаунте
+                getAccountInformation();
+            }
+        });
+    }//clickButtonGoToStartActivity
+
 
     // Получить информацию по аккаунту
-    private void getAccountInformation(){
+    private void getAccountInformation() {
 
         // Повысить шкалу анимации до 20
         binding.waveLoadingView.setProgressValue(20);
@@ -147,15 +161,11 @@ public class MainActivity extends AppCompatActivity {
 
 
                 Call<AccountInformation> call = getService(name,password).getEmployeePermission();
-
-
-
-
                 call.enqueue(new Callback<AccountInformation>() {
-
-
                     @Override
                     public void onResponse(Call<AccountInformation> call, retrofit2.Response<AccountInformation> response) {
+
+
 
                         if (response.isSuccessful()) {
 
@@ -172,9 +182,9 @@ public class MainActivity extends AppCompatActivity {
 
                             // Открыть стартовую активность
                             Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-                            intent.putExtra("name", name);
-                            intent.putExtra("password", password);
                             startActivity(intent);
+
+
 
                             // Если ошибка 401 это ошибка авторизации
                         }else if(response.code() == UNAUTHORIZED) {
@@ -184,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
                             // Любая другая ошибка
                         }else{
-                            Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), String.valueOf(response.code()), Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -192,10 +202,11 @@ public class MainActivity extends AppCompatActivity {
                     // Вызывается, когда произошло сетевое исключение, разговаривающее с сервером или когда возникло непредвиденное исключение, создающее запрос или обработку ответа.
                     @Override
                     public void onFailure(Call<AccountInformation> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
-                    }
-                });
 
+                        Toast.makeText(getApplicationContext(),t.toString(), Toast.LENGTH_LONG).show();
+                    }
+
+                });
 
         }//if
 
