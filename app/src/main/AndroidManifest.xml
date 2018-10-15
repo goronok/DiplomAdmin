@@ -28,8 +28,21 @@
             </intent-filter>
         </activity>
         <activity android:name=".StartActivity" />
+
         <activity android:name=".SettingActivity" />
         <activity android:name=".SpacePhotoActivity" />
+
+        <activity android:name=".SettingActivity"></activity>
+
+        <!--службы для работы Firebase CloudMessaging-->
+        <service android:name=".Service.MessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+
     </application>
+
 
 </manifest>
