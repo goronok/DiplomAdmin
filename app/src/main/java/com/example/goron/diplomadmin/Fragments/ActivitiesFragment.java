@@ -3,6 +3,8 @@ package com.example.goron.diplomadmin.Fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +29,6 @@ import retrofit2.Callback;
 public class ActivitiesFragment extends Fragment {
     RecyclerView recyclerView;
     AdapterActivities activitiesAdapter;
-    private String name, password;
 
     private Call<List<Schedule>> callSchedule;
 
@@ -36,11 +37,9 @@ public class ActivitiesFragment extends Fragment {
     }
 
 
-    public static ActivitiesFragment newInstance(String name, String password) {
+    public static ActivitiesFragment newInstance() {
         ActivitiesFragment fragment = new ActivitiesFragment();
         Bundle args = new Bundle();
-        args.putString("name", name);
-        args.putString("password", password);
         fragment.setArguments(args);
         return fragment;
     }
@@ -48,10 +47,8 @@ public class ActivitiesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            name = getArguments().getString("name");
-            password = getArguments().getString("password");
-        }
+        setRetainInstance(true);
+        if (getArguments() != null) {}
     }
 
     @Override
@@ -59,8 +56,10 @@ public class ActivitiesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_activities, container, false);
+
+        // Инициализируем элементы:
         recyclerView = view.findViewById(R.id.recyclerActivities);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),1));
         getAllActivities();
         return view;
     }
@@ -75,7 +74,7 @@ public class ActivitiesFragment extends Fragment {
             public void onResponse(Call<List<Schedule>> call, retrofit2.Response<List<Schedule>> response) {
                 if (response.isSuccessful()) {
                     if(response.code() == 200) {
-                        activitiesAdapter = new AdapterActivities(response.body(), getActivity(), name, password);
+                        activitiesAdapter = new AdapterActivities(response.body(), getActivity());
                         recyclerView.setAdapter(activitiesAdapter);
                     }
                 } else {
@@ -94,6 +93,15 @@ public class ActivitiesFragment extends Fragment {
 
     // Получить сервис для работы с сервером
     private Service getService(){
-        return ServiceGenerator.createService(Service.class, name, password);
+        return ServiceGenerator.createService(Service.class);
     }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+
+
 }

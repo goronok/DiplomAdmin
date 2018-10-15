@@ -33,7 +33,6 @@ public class ScheduleFragment extends Fragment {
     AdapterSchedule adapterSchedule;
 
 
-    String name, password;
     List<Schedule> shedulesList;
     DatesFestival datesFestival;
 
@@ -42,11 +41,9 @@ public class ScheduleFragment extends Fragment {
     }
 
 
-    public static ScheduleFragment newInstance(String name, String password) {
+    public static ScheduleFragment newInstance() {
         ScheduleFragment fragment = new ScheduleFragment();
         Bundle args = new Bundle();
-        args.putString("name", name);
-        args.putString("password", password);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,10 +51,7 @@ public class ScheduleFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            name = getArguments().getString("name");
-            password = getArguments().getString("password");
-        }
+        if (getArguments() != null) {}
     }
 
     @Override
@@ -66,21 +60,16 @@ public class ScheduleFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
-
+        // Инициализируем элементы:
         expandableListView = view.findViewById(R.id.exppandableList);
 
-
         getDatesFestival();
-
-
-
         return view;
     }
 
 
 
     private void getDatesFestival(){
-
 
         Call<DatesFestival> call = getService().getDatesFestival();
 
@@ -90,7 +79,6 @@ public class ScheduleFragment extends Fragment {
                 if (response.isSuccessful()) {
 
                     if(response.code() == 200) {
-
                         datesFestival = response.body();
                         getSchedule();
                     }
@@ -122,11 +110,12 @@ public class ScheduleFragment extends Fragment {
                     if(response.code() == 200) {
 
                         shedulesList = response.body();
-
                         adapterSchedule = new AdapterSchedule(getContext(),shedulesList, datesFestival);
-
                         expandableListView.setAdapter(adapterSchedule);
 
+                        expandableListView.expandGroup(0);
+                        expandableListView.expandGroup(1);
+                        expandableListView.expandGroup(2);
                     }
 
                 } else {
@@ -143,6 +132,6 @@ public class ScheduleFragment extends Fragment {
     }
 
     private Service getService(){
-        return ServiceGenerator.createService(Service.class, name, password);
+        return ServiceGenerator.createService(Service.class);
     }
 }

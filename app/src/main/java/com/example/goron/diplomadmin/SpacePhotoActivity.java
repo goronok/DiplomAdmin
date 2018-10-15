@@ -25,7 +25,7 @@ public class SpacePhotoActivity extends AppCompatActivity {
                 .load(url)
                 .asBitmap()
                 .error(R.drawable.ic_cloud_off_red)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(spacePhoto);
     }
 }

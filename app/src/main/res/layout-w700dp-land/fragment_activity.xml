@@ -24,48 +24,42 @@
                 <LinearLayout
                     android:id="@+id/linearLayoutTop"
                     android:background="@color/mainGreen"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="90dp">
+                    android:layout_height="40dp">
 
                     <TextView
                         android:fontFamily="@font/sandman"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:textColor="@android:color/white"
                         android:textStyle="italic"
                         android:background="#07000000"
-                        android:gravity="center_horizontal|center_vertical"
                         android:text="@string/Queues"
                         android:textSize="26sp"
-                        android:layout_width="match_parent"
+                        android:layout_width="300dp"
                         android:layout_height="35dp" />
 
 
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
 
                         <TextView
 
-                            android:layout_marginTop="10dp"
-                            android:paddingLeft="20dp"
-                            android:textSize="20sp"
+                            android:layout_marginLeft="150dp"
+                            android:layout_marginTop="5dp"
+                            android:paddingLeft="5dp"
+                            android:textSize="26sp"
                             android:text="@string/Date"
                             android:layout_width="wrap_content"
                             android:textColor="@android:color/white"
-                            android:layout_height="30dp" />
+                            android:layout_height="35dp" />
 
                         <Spinner
-
-                            android:paddingLeft="15dp"
+                            android:layout_marginLeft="10dp"
+                            android:paddingLeft="5dp"
                             android:id="@+id/spinner"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="5dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="30dp"/>
+                            android:layout_height="35dp"/>
 
-
-                    </LinearLayout>
                 </LinearLayout>
 
 
@@ -73,14 +67,15 @@
 
 
                 <android.support.v7.widget.RecyclerView
+                    android:layout_centerHorizontal="true"
                     android:id="@+id/recyclerActivity"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="5dp"
                     android:layout_below="@+id/linearLayoutTop"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="35dp"
                     android:background="#11ffffff"
-                    android:layout_width="match_parent"
+                    android:layout_width="400dp"
                     android:layout_height="match_parent"/>
 
 
@@ -89,7 +84,7 @@
                     android:background="@color/mainGreen"
                     android:layout_alignParentBottom="true"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp">
+                    android:layout_height="40dp">
 
                 </RelativeLayout>
 
@@ -98,7 +93,7 @@
 
             <ImageView
                 app:layout_anchor="@id/relativeBottom"
-                app:layout_anchorGravity="top|center"
+                app:layout_anchorGravity="top|left"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/logodnmin"
                 android:layout_centerInParent="true"

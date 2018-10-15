@@ -14,9 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.goron.diplomadmin.Fragments.AboutActivitiesFragment;
 import com.example.goron.diplomadmin.Model.Schedule;
 import com.example.goron.diplomadmin.R;
+import com.example.goron.diplomadmin.Service.ServiceGenerator;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -27,13 +30,10 @@ public class AdapterActivities extends RecyclerView.Adapter<AdapterActivities.Ad
 
     List<Schedule> scheduleList;
     Context context;
-    String name, password;
 
-    public AdapterActivities(List<Schedule> scheduleList, Context context, String name, String password) {
+    public AdapterActivities(List<Schedule> scheduleList, Context context) {
         this.scheduleList = clearListFromDuplicateName(scheduleList);
         this.context = context;
-        this.name = name;
-        this.password = password;
     }
 
     private List<Schedule> clearListFromDuplicateName(List<Schedule> list1) {
@@ -67,14 +67,22 @@ public class AdapterActivities extends RecyclerView.Adapter<AdapterActivities.Ad
 
         activitiesAdapterVH.nameActivity.setText(schedule.getName());
 
-        activitiesAdapterVH.imageActivity.setImageResource(getImageFromActivitie(schedule.getName()));
+
+        Glide.with(context)
+                .load(ServiceGenerator.API_BASE_URL_IMAGE + schedule.getMain_photo())
+                .asBitmap()
+                .placeholder(R.drawable.ic_cloud_off_red)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .into(activitiesAdapterVH.imageActivity);
+
+       // activitiesAdapterVH.imageActivity.setImageResource(getImageFromActivitie(schedule.getName()));
 
 
         activitiesAdapterVH.relationLayoutItemActiviti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((FragmentActivity)context).getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, AboutActivitiesFragment.newInstance(name, password, schedule )).addToBackStack(null).commit();
+                        .replace(R.id.content_frame, AboutActivitiesFragment.newInstance(schedule)).addToBackStack(null).commit();
             }
         });
 
@@ -91,12 +99,12 @@ public class AdapterActivities extends RecyclerView.Adapter<AdapterActivities.Ad
     private int getImageFromActivitie(String nameActivitie){
 
         switch (nameActivitie){
-            case "Гравитационный батут": return R.drawable.trampoline;
-            case "Троллей": return R.drawable.chairlift64;
-            case "Скалолазание": return R.drawable.climbing64;
-            case "Слеклайн" : return  R.drawable.balance;
+            case "Байдарки": return R.drawable.canoes;
+            case "Троллей": return R.drawable.trolley;
+            case "Скалолазание": return R.drawable.rock_climbing;
+            case "Слеклайн" : return  R.drawable.slackline;
             case "Страйкбол": return R.drawable.paintball;
-            case "Парапланы": return R.drawable.flying;
+            case "Парапланы": return R.drawable.hangglider;
         }
 
         return R.drawable.notimage;
@@ -108,7 +116,6 @@ public class AdapterActivities extends RecyclerView.Adapter<AdapterActivities.Ad
         ImageView imageActivity;
         TextView nameActivity;
 
-        LinearLayout linearBottom, linearRigth;
         RelativeLayout relationLayoutItemActiviti;
 
         public AdapterActivitiesVH(@NonNull View itemView) {

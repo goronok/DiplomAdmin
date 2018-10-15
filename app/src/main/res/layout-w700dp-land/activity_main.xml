@@ -17,7 +17,7 @@
             android:id="@+id/mainRelation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/main5"
+            android:background="@drawable/main3"
             tools:context=".MainActivity">
 
 
@@ -25,6 +25,7 @@
                 android:textColor="@android:color/white"
                 android:fontFamily="@font/sandman"
                 android:text="@string/Login"
+                android:layout_centerHorizontal="true"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="30dp"
                 android:textSize="28sp"
@@ -39,7 +40,7 @@
                 android:layout_marginRight="30dp"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/textInputLayouttextInputName"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 app:hintTextAppearance="@style/MyHint"
                 android:textColorHint="@android:color/white"
                 android:layout_height="wrap_content" >
@@ -52,7 +53,7 @@
                     android:background="#16ffffff"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:hint="Имя"
+                    android:hint="@string/Name"
                     android:text="admin"
                     android:textColorHint="@android:color/white"
                     android:textColor="@android:color/white"/>
@@ -66,8 +67,8 @@
                 android:layout_below="@+id/textInputLayouttextInputName"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_centerInParent="true"
-                android:layout_width="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_width="300dp"
                 app:hintTextAppearance="@style/MyHint"
                 android:textColorHint="@android:color/white"
                 android:layout_height="wrap_content" >
@@ -81,9 +82,9 @@
                     android:drawableLeft="@drawable/ic_action_password_white"
                     android:background="#11ffffff"
                     android:text="admin"
-                    android:layout_width="match_parent"
+                    android:layout_width="300dp"
                     android:layout_height="40dp"
-                    android:hint="Пароль"
+                    android:hint="@string/Password"
                     android:inputType="textPassword"
 
                     android:textColor="@android:color/white"
@@ -97,11 +98,11 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="30dp"
                 android:textColor="@android:color/white"
-                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
                 android:id="@+id/checkBoxRememberMe"
                 android:text="@string/SaveMe"
                 android:layout_below="@+id/textInputLayouttextInputPassword"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="40dp" />
 
 
@@ -125,13 +126,13 @@
 
             android:background="@android:color/white"
 
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="100dp"
             android:id="@+id/waveLoadingView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:wlv_borderColor="@color/mainGreen"
             app:wlv_borderWidth="0dp"
-            app:wlv_progressValue="40"
+            app:wlv_progressValue="10"
             app:wlv_shapeType="circle"
             app:wlv_round_rectangle="true"
             app:wlv_triangle_direction="north"

@@ -2,6 +2,7 @@ package com.example.goron.diplomadmin.Fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -75,10 +76,7 @@ public class ActivityFragment extends Fragment {
     private Call<List<Activities>> callActivities;
     public  Call<DatesFestival> callDate;
 
-    //public static ShimmerFrameLayout mShimmerViewContainer;
-
-
-    private String name, password;
+    ProgressDialog mDialog;
 
     // Путь к файлу где хранится информация по акаунту
     private final  String FileNameAccountInformation = "AccountInformation.ser";
@@ -92,11 +90,9 @@ public class ActivityFragment extends Fragment {
 
 
 
-    public static ActivityFragment newInstance(String name, String password) {
+    public static ActivityFragment newInstance() {
         ActivityFragment fragment = new ActivityFragment();
         Bundle args = new Bundle();
-        args.putString("name", name);
-        args.putString("password", password);
         fragment.setArguments(args);
         return fragment;
     }
@@ -104,10 +100,7 @@ public class ActivityFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            name = getArguments().getString("name");
-            password = getArguments().getString("password");
-        }
+        if (getArguments() != null) {}
     }
 
 
@@ -118,12 +111,18 @@ public class ActivityFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_activity, container, false);
 
+
+        mDialog = new ProgressDialog(getContext());
+        mDialog.setMessage("Загрузка очередей...");
+        mDialog.setCancelable(false);
+        mDialog.show();
+
+
         //Инициализируем элементы:
         linearLayoutTop = view.findViewById(R.id.linearLayoutTop);
         relativeBottom = view.findViewById(R.id.relativeBottom);
         recyclerView = view.findViewById(R.id.recyclerActivity);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
         spinner = view.findViewById(R.id.spinner);
         addFlBut = view.findViewById(R.id.addFlBut);
 
@@ -136,7 +135,6 @@ public class ActivityFragment extends Fragment {
         // Добавляем слушателя при выборе в спинере даты
         spinnerSetListener();
 
-        //mShimmerViewContainer.setVisibility(View.GONE);
         //
         addFlBut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,6 +158,7 @@ public class ActivityFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String date = (String) parent.getItemAtPosition(position);
 
+                mDialog.show();
                 // Получить активности
                 getActivity(date);
             }
@@ -197,18 +196,17 @@ public class ActivityFragment extends Fragment {
                     if (response.isSuccessful()) {
 
                         if(response.code() == 200) {
-
-                            adapterActivity = new AdapterActivity(response.body(), getActivity(), accountInformation, setting, name, password);
-
+                            adapterActivity = new AdapterActivity(response.body(), getActivity(), accountInformation, setting);
                             recyclerView.setAdapter(adapterActivity);
+                            mDialog.setMessage("Загрузка очередей...");
+                            mDialog.cancel();
+                        }
+                        if(response.code() == 401){
+                            Toast.makeText(getActivity(), "Неправильные доступы.", Toast.LENGTH_LONG).show();
                         }
 
-                        // Stopping Shimmer Effect's animation after data is loaded to ListView
-                        //mShimmerViewContainer.stopShimmerAnimation();
-                        //mShimmerViewContainer.setVisibility(View.GONE);
-
                     } else {
-                        Toast.makeText(getActivity(), "error response, no access to resource?", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Отсутствует доступ к ресурсу", Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -223,7 +221,7 @@ public class ActivityFragment extends Fragment {
 
     // Получить сервис для работы с сервером
     private Service getService(){
-        return ServiceGenerator.createService(Service.class, name, password);
+        return ServiceGenerator.createService(Service.class);
     }
 
 
@@ -247,7 +245,6 @@ public class ActivityFragment extends Fragment {
         if(datesFestival == null){
             callDate = getService().getDatesFestival();
 
-
             callDate.enqueue(new Callback<DatesFestival>() {
                 @Override
                 public void onResponse(Call<DatesFestival> call, retrofit2.Response<DatesFestival> response) {
@@ -263,7 +260,7 @@ public class ActivityFragment extends Fragment {
                         spinner.setAdapter(adapter);
 
                     } else {
-                        Toast.makeText(getContext(), "error response, no access to resource?", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Ошибка запроса", Toast.LENGTH_LONG).show();
 
                     }
                 }
@@ -322,6 +319,8 @@ public class ActivityFragment extends Fragment {
                                        Toast.makeText(getContext(), "Не все поля заполнены", Toast.LENGTH_LONG).show();
                                        showRegistrationDialog();
                                     }else {
+                                        mDialog.setMessage("Регистрация участника...");
+                                        mDialog.show();
                                         Users users = new Users(textInputName.getText().toString(), textInputSurName.getText().toString(), textInputNumber.getText().toString(), textInputPassport.getText().toString());
                                         registration(users);
                                     }
@@ -368,11 +367,12 @@ public class ActivityFragment extends Fragment {
                 if (response.isSuccessful()) {
 
                     if(response.code() == 200) {
+                        mDialog.cancel();
                         Toast.makeText(getActivity(), "Регистрация прошла успешно", Toast.LENGTH_LONG).show();
                     }
 
                 } else {
-                    Toast.makeText(getActivity(), "error response, no access to resource?", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Сбой регистрации", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -382,5 +382,6 @@ public class ActivityFragment extends Fragment {
             }
         });
     }
+
 
 }

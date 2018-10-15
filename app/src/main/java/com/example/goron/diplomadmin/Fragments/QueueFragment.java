@@ -49,7 +49,7 @@ public class QueueFragment extends Fragment {
     private SwipeDeck swipeDeck;
 
     private int idShedule, idUser;
-    private String userName, nameSchedule, name, password;
+    private String userName, nameSchedule;
 
     TextView empty;
     InfoQueue infoQueue;
@@ -66,13 +66,11 @@ public class QueueFragment extends Fragment {
 
 
 
-    public static QueueFragment newInstance(int idShedule, String nameSchedule, String name, String password) {
+    public static QueueFragment newInstance(int idShedule, String nameSchedule) {
         QueueFragment fragment = new QueueFragment();
         Bundle args = new Bundle();
         args.putInt("idShedule", idShedule);
         args.putString("nameSchedule", nameSchedule);
-        args.putString("name", name);
-        args.putString("password", password);
         fragment.setArguments(args);
         return fragment;
     }
@@ -84,8 +82,6 @@ public class QueueFragment extends Fragment {
         if (getArguments() != null) {
             idShedule = getArguments().getInt("idShedule");
             nameSchedule = getArguments().getString("nameSchedule");
-            name = getArguments().getString("name");
-            password = getArguments().getString("password");
         }
     }
 
@@ -96,6 +92,7 @@ public class QueueFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_queue, container, false);
 
+        // Инициализируем элементы:
         textNameSchedule = view.findViewById(R.id.textNameSchedule);
         textAmountQueue = view.findViewById(R.id.textAmountQueue);
         swipeDeck = view.findViewById(R.id.swipe_deck);
@@ -191,7 +188,7 @@ public class QueueFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Fragment fragment = AllQueueFragment.newInstance(idShedule, nameSchedule, name, password);
+                Fragment fragment = AllQueueFragment.newInstance(idShedule, nameSchedule);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.content_frame, fragment)
                         .addToBackStack(null)
@@ -340,7 +337,7 @@ public class QueueFragment extends Fragment {
 
 
     private Service getLoginService(){
-        return  ServiceGenerator.createService(Service.class, name, password);
+        return  ServiceGenerator.createService(Service.class);
     }
 
 

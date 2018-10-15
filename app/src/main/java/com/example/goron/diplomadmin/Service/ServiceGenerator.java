@@ -1,5 +1,6 @@
 package com.example.goron.diplomadmin.Service;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.example.goron.diplomadmin.Interceptors.AuthenticationInterceptor;
@@ -14,8 +15,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
 
-    public static final String API_BASE_URL = "http://bdc16540.ngrok.io/api/v1/";
-    public static final String API_BASE_URL_IMAGE = "http://bdc16540.ngrok.io/";
+    public static final String API_BASE_URL = "http://34185c4f.ngrok.io/api/v1/";
+    public static final String API_BASE_URL_IMAGE = "http://34185c4f.ngrok.io/";
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
@@ -31,7 +32,7 @@ public class ServiceGenerator {
                                                                     .addConverterFactory(GsonConverterFactory.create(gson))
                                                                     .addConverterFactory(GsonConverterFactory.create());
 
-    private static Retrofit retrofit = builder.build();
+    public static Retrofit retrofit = builder.build();
 
 
 

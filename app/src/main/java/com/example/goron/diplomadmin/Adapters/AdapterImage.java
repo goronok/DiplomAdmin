@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.goron.diplomadmin.R;
 import com.example.goron.diplomadmin.Service.ServiceGenerator;
 import com.example.goron.diplomadmin.SpacePhotoActivity;
@@ -43,7 +44,9 @@ public class AdapterImage extends RecyclerView.Adapter<AdapterImage.AdapterImage
 
         Glide.with(context)
                 .load(urlPhoto)
+                .asBitmap()
                 .placeholder(R.drawable.ic_cloud_off_red)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(imageView);
 
     }

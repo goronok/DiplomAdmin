@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,11 +35,8 @@ import retrofit2.Response;
 public class AboutActivitiesFragment extends Fragment implements NestedScrollView.OnScrollChangeListener {
 
 
-    private static final String ARG_PARAM_NAME = "name";
-    private static final String ARG_PARAM_PASSWORD = "password";
     private static final String ARG_PARAM_SCHEDULE = "schedule";
 
-    private String name, password;
     private Schedule schedule;
 
     private  String start = "<html> <head></head>  <body style=\"text-align:justify;color:white;\"> ";
@@ -47,7 +45,7 @@ public class AboutActivitiesFragment extends Fragment implements NestedScrollVie
     // Информация по очереди
     private InfoQueue infoQueue;
 
-    CircleImageView imageView;
+    ImageView imageView;
     TextView textViewTime, textViewCount, textViewAvgTime;
     WebView webView;
     RecyclerView recyclerView;
@@ -58,11 +56,9 @@ public class AboutActivitiesFragment extends Fragment implements NestedScrollVie
     }
 
 
-    public static AboutActivitiesFragment newInstance(String name, String password, Schedule schedule) {
+    public static AboutActivitiesFragment newInstance(Schedule schedule) {
         AboutActivitiesFragment fragment = new AboutActivitiesFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM_NAME, name);
-        args.putString(ARG_PARAM_PASSWORD, password);
         args.putSerializable(ARG_PARAM_SCHEDULE, schedule);
         fragment.setArguments(args);
         return fragment;
@@ -72,8 +68,6 @@ public class AboutActivitiesFragment extends Fragment implements NestedScrollVie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            name = getArguments().getString(ARG_PARAM_NAME);
-            password = getArguments().getString(ARG_PARAM_PASSWORD);
             schedule = (Schedule) getArguments().getSerializable(ARG_PARAM_SCHEDULE);
         }
     }
@@ -86,7 +80,6 @@ public class AboutActivitiesFragment extends Fragment implements NestedScrollVie
 
 
         // Инициализируем элементы:
-        //textViewDescription = view.findViewById(R.id.textViewDescription);
         webView = view.findViewById(R.id.webView);
         textViewTime = view.findViewById(R.id.textViewTime);
         textViewCount = view.findViewById(R.id.textViewCount);
@@ -96,7 +89,7 @@ public class AboutActivitiesFragment extends Fragment implements NestedScrollVie
         webView.setVerticalScrollBarEnabled(false);
         recyclerView = view.findViewById(R.id.recyclerImage);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),3));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
         AdapterImage adapterImage = new AdapterImage(getContext(), schedule.getPhotos());
 
         recyclerView.setNestedScrollingEnabled(false);
@@ -112,7 +105,7 @@ public class AboutActivitiesFragment extends Fragment implements NestedScrollVie
     // Длина очереди
     private void getInfoQueue(){
 
-        Call<InfoQueue> queueInfo = getService().queueInfo(schedule.getActivity_id());
+        Call<InfoQueue> queueInfo = getService().queueInfo(schedule.getId());
 
         queueInfo.enqueue(new Callback<InfoQueue>() {
             @Override
@@ -170,7 +163,7 @@ public class AboutActivitiesFragment extends Fragment implements NestedScrollVie
 
     // Получить сервис для работы с сервером
     private Service getService(){
-        return ServiceGenerator.createService(Service.class, name, password);
+        return ServiceGenerator.createService(Service.class);
     }
 
     @Override
