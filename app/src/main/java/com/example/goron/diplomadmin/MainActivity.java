@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
         // Метод DataBindingUtil.setContentView внутри себя сделает привычный нам setContentView для Activity, а также настроит и вернет объект биндинга MainActivityBinding.
         binding = DataBindingUtil.setContentView(this, LAYOUT);
 

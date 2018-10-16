@@ -32,6 +32,7 @@ import com.example.goron.diplomadmin.Fragments.ActivityFragment;
 import com.example.goron.diplomadmin.Fragments.QueueFragment;
 import com.example.goron.diplomadmin.Fragments.ScheduleFragment;
 import com.example.goron.diplomadmin.Fragments.SettingFragment;
+import com.example.goron.diplomadmin.Manager.DbManager;
 import com.example.goron.diplomadmin.Manager.SerializableManager;
 import com.example.goron.diplomadmin.Model.Activities;
 import com.example.goron.diplomadmin.Model.Setting;
@@ -97,21 +98,21 @@ public class StartActivity extends AppCompatActivity {
         // определяем, было ли нажатие на уведомление или был обычный вход
         if (arguments == null || arguments.get("destination") == null){
             activityfragment= ActivityFragment.newInstance();
-            showFragment(activityfragment);
+            showFragment(activityfragment, "menu");
         } else {
             String destination = arguments.get("destination").toString();
             Log.d("notificationsDebug", "destination - " + destination);
             switch (destination){
                 case "schedule":
                     scheduleFragment = ScheduleFragment.newInstance();
-                    showFragment(scheduleFragment);
+                    showFragment(scheduleFragment, null);
                     break;
                 case "queue":
                     QueueFragment queueFragment = QueueFragment.newInstance(
                             Integer.parseInt(arguments.get("activityId").toString()),
                             arguments.get("activityName").toString()
                     );
-                    showFragment(queueFragment);
+                    showFragment(queueFragment, null);
                     break;
             }
         }
@@ -134,18 +135,19 @@ public class StartActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Добро пожаловать", Toast.LENGTH_LONG).show();
             activityfragment = ActivityFragment.newInstance();
-            showFragment(activityfragment);
+            showFragment(activityfragment, "menu");
         }
 
 
     }
 
 
-    private void showFragment(Fragment fragment) {
+    private void showFragment(Fragment fragment, String tag) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-
-
-        fragmentTransaction.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+        if(tag == null)
+            fragmentTransaction.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+        else
+            fragmentTransaction.replace(R.id.content_frame, fragment, tag).addToBackStack(null).commit();
     }//showFragment
 
 
@@ -153,21 +155,25 @@ public class StartActivity extends AppCompatActivity {
     public void onBackPressed() {
         int count = getSupportFragmentManager().getBackStackEntryCount();
 
-                // Если открыто боковое меню - закрываем его, Если в стеке последний фрагмент закрываем активность иначе возвращаемся к предыдущему фрагменту
-                if (drawerLayout.isDrawerOpen(GravityCompat.START))
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                else if (count == 1) {
-
-                          if(activityfragment != null) {
-                              if (activityfragment.callDate != null) {
-                                  activityfragment.callDate.cancel();
-                              }
-
-                          }
-                            moveTaskToBack(true);
-                } else {
+            // Если открыто боковое меню - закрываем его, Если в стеке последний фрагмент закрываем активность иначе возвращаемся к предыдущему фрагменту
+            if (drawerLayout.isDrawerOpen(GravityCompat.START))
+                drawerLayout.closeDrawer(GravityCompat.START);
+            else if (count == 1) {
+                if(getSupportFragmentManager().findFragmentByTag("menu") == null){
                     getSupportFragmentManager().popBackStack();
+                    activityfragment = ActivityFragment.newInstance();
+                    showFragment(activityfragment, "menu");
+                } else{
+                    if(activityfragment != null) {
+                        if (activityfragment.callDate != null) {
+                            activityfragment.callDate.cancel();
+                        }
+                    }
+                    moveTaskToBack(true);
                 }
+            } else {
+                getSupportFragmentManager().popBackStack();
+            }
 
     }//onBackPressed
 
@@ -186,18 +192,21 @@ public class StartActivity extends AppCompatActivity {
                     case R.id.activities:
                         ActivitiesFragment activitiesFragment = ActivitiesFragment.newInstance();
 
-                        showFragment(activitiesFragment);
+                        showFragment(activitiesFragment, "menu");
 
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
 
                     case R.id.schedule:
                           scheduleFragment = ScheduleFragment.newInstance();
-                          showFragment(scheduleFragment);
+                          showFragment(scheduleFragment, null);
                           drawerLayout.closeDrawer(GravityCompat.START);
                           break;
 
                     case R.id.exit:
+
+                        DbManager dbManager = new DbManager(getApplicationContext());
+                        dbManager.deleteUserData();
 
                         intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
