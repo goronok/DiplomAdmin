@@ -92,24 +92,24 @@ public class StartActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        Bundle arguments = getIntent().getExtras();
 
         // определяем, было ли нажатие на уведомление или был обычный вход
-        if (arguments.get("destination") == null){
-            activityfragment= ActivityFragment.newInstance(name, password);
+        if (arguments == null || arguments.get("destination") == null){
+            activityfragment= ActivityFragment.newInstance();
             showFragment(activityfragment);
         } else {
             String destination = arguments.get("destination").toString();
             Log.d("notificationsDebug", "destination - " + destination);
             switch (destination){
                 case "schedule":
-                    scheduleFragment = ScheduleFragment.newInstance("admin","admin");
+                    scheduleFragment = ScheduleFragment.newInstance();
                     showFragment(scheduleFragment);
                     break;
                 case "queue":
                     QueueFragment queueFragment = QueueFragment.newInstance(
                             Integer.parseInt(arguments.get("activityId").toString()),
-                            arguments.get("activityName").toString(),
-                            "admin","admin"
+                            arguments.get("activityName").toString()
                     );
                     showFragment(queueFragment);
                     break;
@@ -128,11 +128,8 @@ public class StartActivity extends AppCompatActivity {
 
         navigationMenu();
 
-        if (getResources().getConfiguration().orientation
-                == Configuration.ORIENTATION_LANDSCAPE || getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            // If the screen is now in landscape mode, we can show the
-            // dialog in-line with the list so we don't need this activity.
-
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ||
+                                         getSupportFragmentManager().getBackStackEntryCount() > 1) {
             return;
         } else {
             Toast.makeText(getApplicationContext(), "Добро пожаловать", Toast.LENGTH_LONG).show();

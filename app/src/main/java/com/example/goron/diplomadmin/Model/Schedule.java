@@ -10,7 +10,6 @@ import java.util.List;
 public class Schedule implements Serializable {
 
     private int id;
-    private int activity_id;
     private Date date;
     private String start_time;
     private String end_time;
@@ -22,9 +21,8 @@ public class Schedule implements Serializable {
 
 
     // Конструктор с параметрами
-    public Schedule(int id, int activity_id, Date date, String start_time, String end_time, String name, String description, String main_photo, List<String> photos) {
+    public Schedule(int id,  Date date, String start_time, String end_time, String name, String description, String main_photo, List<String> photos) {
         this.id = id;
-        this.activity_id = activity_id;
         this.date = date;
         this.start_time = start_time;
         this.end_time = end_time;
@@ -99,11 +97,5 @@ public class Schedule implements Serializable {
         this.photos = photos;
     }
 
-    public int getActivity_id() {
-        return activity_id;
-    }
 
-    public void setActivity_id(int activity_id) {
-        this.activity_id = activity_id;
-    }
 }

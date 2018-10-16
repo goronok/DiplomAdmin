@@ -16,6 +16,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import com.example.goron.diplomadmin.Interface.Service;
+import com.example.goron.diplomadmin.Manager.DbManager;
 import com.example.goron.diplomadmin.Manager.SerializableManager;
 import com.example.goron.diplomadmin.Model.AccountInformation;
 import com.example.goron.diplomadmin.Model.Login;
@@ -24,6 +25,7 @@ import com.example.goron.diplomadmin.databinding.ActivityMainBinding;
 
 import java.io.IOException;
 import java.nio.channels.NoConnectionPendingException;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     // Ошибка 401
     private final int UNAUTHORIZED = 401;
 
-
+    private DbManager dbManager;
 
 
     // Имя файла для сохранения информации об акаунте
